@@ -1,4 +1,4 @@
-package lesson1;
+package ru.lenkoa.lessons;
 
 public class Main {
     public static void main(String[] args) {
