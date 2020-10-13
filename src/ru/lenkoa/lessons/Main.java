@@ -9,7 +9,9 @@ public class Main {
         fillArray2();
         changeArray();
         fillDiagonal(4);
-        isEqual();
+        findMinMax(new int[] {2, 4, 6, 12, 24, 76, 1});
+        System.out.println(checkBalance(new int[] { 1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1 }));
+        System.out.println(checkBalance(new int[] {1, 2, 4, 7}));
 
     }
 
@@ -68,42 +70,34 @@ public class Main {
 
     }
 
-    public static void findMinMax(int SIZE){
-        int[] arr = new int[SIZE];
+    public static void findMinMax(int[] arr){
         int maxElement = arr[0];
         for (int i = 1; i < arr.length; i++){
-            if (arr[i] > maxElement) {
-                maxElement = arr[i];
-            }
+            maxElement = Math.max(maxElement, arr[i]);
         }
         int minElement = arr[0];
         for (int i = 1; i < arr.length; i++){
-            if (arr[i] < maxElement) {
-                maxElement = arr[i];
-            }
+            minElement = Math.min(minElement, arr[i]);
         }
         System.out.println("Минимальный элемент массива: " + minElement);
         System.out.println("Максимальный элемент массива: " + maxElement);
     }
 
-    public static boolean isEqual (){
-        int[] arr = { 1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1 };
-        int sum1 = 0;
-        int sum2 = 0;
-        do {
-            for (int i = 0; i < arr.length - 1; i++) {
-                for (int j = 0; j <= i; j++) {
-                    sum1 += arr[j];
-                }
-                for (int j = arr.length - 1; j > i; j--) {
-                    sum2 +=arr[j];
-                }
-            }
-        } while (sum1 < sum2);
-        return sum1 == sum2;
+    public static boolean checkBalance (int[] arr){
+        int sumOfArray = 0;
+        int sumAcc = 0;
+        for (int i = 0; i < (arr.length); i++) {
+            sumOfArray += arr[i];
+        }
+        for (int i = 0; i < (arr.length - 1); i++) {
+            do {
+                sumAcc += arr[i];
+            } while (sumAcc <= (sumOfArray-sumAcc));
+        }
+        return sumAcc == sumOfArray;
     }
 
-
+    // седьмое не успела пока
 
 
 }
