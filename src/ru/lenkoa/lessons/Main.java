@@ -87,16 +87,15 @@ public class Main {
 
     public static boolean checkBalance (int[] arr){
         int sumOfArray = 0;
-        int sumAcc = 0;
-        for (int i = 0; i < (arr.length); i++) {
+        for (int i = 0; i < arr.length; i++) {
             sumOfArray += arr[i];
         }
-        for (int i = 0; i < (arr.length - 1); i++) {
-            do {
-                sumAcc += arr[i];
-            } while (sumAcc <= (sumOfArray-sumAcc));
+
+        int sum = 0;
+        for (int i = 0; i < arr.length - 1 && sum < sumOfArray - sum; i++) {
+            sum += arr[i];
         }
-        return sumAcc == sumOfArray;
+        return sum == sumOfArray - sum;
     }
 
     public static boolean checkBalance2 (int[] arr){
