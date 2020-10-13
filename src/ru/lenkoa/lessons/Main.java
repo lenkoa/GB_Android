@@ -12,6 +12,8 @@ public class Main {
         findMinMax(new int[] {2, 4, 6, 12, 24, 76, 1});
         System.out.println(checkBalance(new int[] { 1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1 }));
         System.out.println(checkBalance(new int[] {1, 2, 4, 7}));
+        System.out.println(checkBalance2(new int[] {2, 2, 4, 8, 5, 11}));
+
 
     }
 
@@ -95,6 +97,21 @@ public class Main {
             } while (sumAcc <= (sumOfArray-sumAcc));
         }
         return sumAcc == sumOfArray;
+    }
+
+    public static boolean checkBalance2 (int[] arr){
+        int[] arrAccum = new int[arr.length];
+        arrAccum[0] = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            arrAccum[i] = arrAccum[i-1] + arr[i];
+        }
+        int n = arr.length - 1;
+        for (int i = 0; i < n; i++) {
+            if (arrAccum[i] == (arrAccum[n] - arrAccum[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // седьмое не успела пока
