@@ -18,7 +18,15 @@ public class Main {
 
         for (int i = 1; i < 4; i++) {
             System.out.println("Введите целое число от 0 до 9. У вас три попытки. \nПопытка " + i + ":");
-            int a = in.hasNextInt() ? in.nextInt() : 10;
+            int a;
+            if (in.hasNextInt()) {
+                a = in.nextInt();
+            } else {
+                System.out.println("Вы ввели не число от 0 до 9");
+                in.next();
+                continue;
+            }
+
             if (a < 0 || a > 9) {
                 System.out.println("Вы ввели не число от 0 до 9");
             } else if (a == test) {
