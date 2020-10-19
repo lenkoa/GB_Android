@@ -6,12 +6,13 @@ import java.util.Scanner;
 public class Main {
 
     static final int SIZE = 3;
-    static int DOTS_TO_WIN;
-    if (SIZE <= 6){
-        int DOTS_TO_WIN = 3;
-    } else if (SIZE >=7 && SIZE <= 10){
-        int DOTS_TO_WIN = 4;
-    } else int DOTS_TO_WIN = 5;
+    private static int DOTS_TO_WIN; {
+        if (SIZE <= 6) {
+            DOTS_TO_WIN = 3;
+        } else if (SIZE >= 7 && SIZE <= 10) {
+            DOTS_TO_WIN = 4;
+        } else DOTS_TO_WIN = 5;
+    }
 
     static final char DOT_EMPTY = '•';
     static final char DOT_HUMAN = 'X';
@@ -172,4 +173,7 @@ public class Main {
         map[rowNumber - 1][colNumber - 1] = DOT_AI;
     }
 
+    public static void setDotsToWin(int dotsToWin) {
+        DOTS_TO_WIN = dotsToWin;
+    }
 }
