@@ -73,12 +73,25 @@ public class Main {
         while (true) {
             humanTurn();
             printMap();
-            checkEnd(DOT_HUMAN);
-
+            if (checkWin(DOT_HUMAN)) {
+                System.out.println("Победил человек");
+                break ;
+            }
+            if (isMapFull()) {
+                System.out.println("Ничья");
+                break ;
+            }
 
             aiTurn();
             printMap();
-            checkEnd(DOT_AI);
+            if (checkWin(DOT_AI)) {
+                System.out.println("Победил Искуственный Интеллект");
+                break ;
+            }
+            if (isMapFull()) {
+                System.out.println("Ничья");
+                break ;
+            }
         }
     }
 
@@ -116,34 +129,6 @@ public class Main {
 
     private static boolean isCellValid(int rowNumber, int colNumber) {
         return isCellValid(rowNumber, colNumber, false);
-    }
-
-    private static void checkEnd(char symbol) {
-
-        boolean isEnd = false;
-
-        if(checkWin(symbol)) {
-            String winMessage;
-
-            if(symbol == DOT_HUMAN) {
-                winMessage = "УРА! Вы победили!";
-            }
-            else {
-                winMessage = "Восстание близко! AI победил";
-            }
-
-            isEnd = true;
-            System.out.println(winMessage);
-        }
-
-        if(!isEnd && isMapFull()) {
-            System.out.println("Ничья!");
-            isEnd = true;
-        }
-
-        if(isEnd) {
-            System.exit(0);
-        }
     }
 
     private static boolean checkWin(char symbol) {
