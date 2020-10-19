@@ -6,6 +6,13 @@ import java.util.Scanner;
 public class Main {
 
     static final int SIZE = 3;
+    private static int DOTS_TO_WIN; {
+        if (SIZE <= 6){
+            DOTS_TO_WIN = 3;
+        } else if (SIZE >=7 && SIZE <= 10){
+            DOTS_TO_WIN = 4;
+        } else DOTS_TO_WIN = 5;
+    }
 
 
     static final char DOT_EMPTY = '•';
@@ -14,7 +21,6 @@ public class Main {
 
     static final String HEADER_FIRST_EMPTY = "♥";
     static final String EMPTY = " ";
-
 
     static char[][] map = new char[SIZE][SIZE];
     static Scanner scanner = new Scanner(System.in);
@@ -131,22 +137,28 @@ public class Main {
         return isCellValid(rowNumber, colNumber, false);
     }
 
-    private static boolean checkWin(char symbol) {
-        if (map[0][0] == symbol && map[0][1] == symbol && map[0][2] == symbol) return true;
-        if (map[1][0] == symbol && map[1][1] == symbol && map[1][2] == symbol) return true;
-        if (map[2][0] == symbol && map[2][1] == symbol && map[2][2] == symbol) return true;
-
-        if (map[0][0] == symbol && map[1][0] == symbol && map[2][0] == symbol) return true;
-        if (map[0][1] == symbol && map[1][1] == symbol && map[2][1] == symbol) return true;
-        if (map[0][2] == symbol && map[1][2] == symbol && map[2][2] == symbol) return true;
-
-        if (map[0][2] == symbol && map[1][1] == symbol && map[2][2] == symbol) return true;
-        if (map[0][2] == symbol && map[1][1] == symbol && map[2][0] == symbol) return true;
-
+    private static boolean checkWin(char symbol, int symbolRowNumber, int symbolColNumber) {
+        int countWinCells = 0;
+        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в строке
+            countWinCells = map[symbolRowNumber][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
+            return countWinCells >= DOTS_TO_WIN;
+        }
+        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в столбце
+            countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber] == symbol ? countWinCells + 1 : 0;
+            return countWinCells >= DOTS_TO_WIN;
+        }
+        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали сверху вниз
+            countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
+            return countWinCells >= DOTS_TO_WIN;
+        }
+        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали снизу вверх
+            countWinCells = map[symbolRowNumber + DOTS_TO_WIN - i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
+            return countWinCells >= DOTS_TO_WIN;
+        }
         return false;
     }
 
-    private static boolean isMapFull() {
+7    private static boolean isMapFull() {
         for (char[] chars : map) {
             for (char aChar : chars) {
                 if(aChar == DOT_EMPTY) {
