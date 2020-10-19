@@ -6,14 +6,12 @@ import java.util.Scanner;
 public class Main {
 
     static final int SIZE = 3;
-    private static int DOTS_TO_WIN; {
-        if (SIZE <= 6){
-            DOTS_TO_WIN = 3;
-        } else if (SIZE >=7 && SIZE <= 10){
-            DOTS_TO_WIN = 4;
-        } else DOTS_TO_WIN = 5;
-    }
-
+    static int DOTS_TO_WIN;
+    if (SIZE <= 6){
+        int DOTS_TO_WIN = 3;
+    } else if (SIZE >=7 && SIZE <= 10){
+        int DOTS_TO_WIN = 4;
+    } else int DOTS_TO_WIN = 5;
 
     static final char DOT_EMPTY = '•';
     static final char DOT_HUMAN = 'X';
@@ -76,25 +74,29 @@ public class Main {
 
     private static void playGame() {
 
-        while (true) {
+        int countTurns = 0;
+        while (countTurns <= SIZE * SIZE) {
             humanTurn();
             printMap();
-            if (checkWin(DOT_HUMAN)) {
+            countTurns++;
+            if (countTurns >= DOTS_TO_WIN * 2 && checkWin(DOT_HUMAN)) {
                 System.out.println("Победил человек");
                 break ;
             }
-            if (isMapFull()) {
+            if (countTurns == SIZE * SIZE ) {
                 System.out.println("Ничья");
                 break ;
             }
 
+
             aiTurn();
             printMap();
-            if (checkWin(DOT_AI)) {
+            countTurns++;
+            if (countTurns >= DOTS_TO_WIN * 2 && checkWin(DOT_AI)) {
                 System.out.println("Победил Искуственный Интеллект");
                 break ;
             }
-            if (isMapFull()) {
+            if (countTurns == SIZE * SIZE ) {
                 System.out.println("Ничья");
                 break ;
             }
@@ -157,18 +159,6 @@ public class Main {
         }
         return false;
     }
-
-7    private static boolean isMapFull() {
-        for (char[] chars : map) {
-            for (char aChar : chars) {
-                if(aChar == DOT_EMPTY) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
 
     private static void aiTurn() {
         int rowNumber;
