@@ -28,8 +28,11 @@ public class Main {
 
     public static void main(String[] args) {
         turnGame();
+        tryAgain();
 
     }
+
+
 
     private static void turnGame() {
         initMap();
@@ -80,27 +83,23 @@ public class Main {
             humanTurn();
             printMap();
             countTurns++;
-            if (countTurns >= DOTS_TO_WIN * 2 && checkWin(DOT_HUMAN)) {
-                System.out.println("Победил человек");
-                break ;
-            }
-            if (countTurns == SIZE * SIZE ) {
-                System.out.println("Ничья");
-                break ;
-            }
-
+            checkEnd(countTurns, DOT_HUMAN);
 
             aiTurn();
             printMap();
             countTurns++;
-            if (countTurns >= DOTS_TO_WIN * 2 && checkWin(DOT_AI)) {
-                System.out.println("Победил Искуственный Интеллект");
-                break ;
-            }
-            if (countTurns == SIZE * SIZE ) {
-                System.out.println("Ничья");
-                break ;
-            }
+            checkEnd(countTurns, DOT_AI);
+        }
+    }
+
+    private static void checkEnd(int countTurns, char symbol) {
+        if (countTurns >= DOTS_TO_WIN * 2 && checkWin(symbol)) {
+        System.out.println("Победил человек");
+        break;
+    }
+        if (countTurns == SIZE * SIZE) {
+            System.out.println("Ничья");
+            break;
         }
     }
 
@@ -117,6 +116,8 @@ public class Main {
         } while (!isCellValid(rowNumber, colNumber));
 
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
+
+        int symbolRowNumber = rowNumber - 1;
     }
 
     private static boolean isCellValid(int rowNumber, int colNumber, boolean isAI) {
@@ -132,7 +133,6 @@ public class Main {
             }
             return false;
         }
-
         return true;
     }
 
@@ -171,9 +171,16 @@ public class Main {
         } while (!isCellValid(rowNumber, colNumber, true));
 
         map[rowNumber - 1][colNumber - 1] = DOT_AI;
+
+        checkWin(DOT_AI, rowNumber - 1, colNumber - 1);
     }
 
-    public static void setDotsToWin(int dotsToWin) {
-        DOTS_TO_WIN = dotsToWin;
+    private static void tryAgain() {
+        System.out.println("Повторить игру ещё раз? 1 – да / 0 – нет");
+
+        switch (scanner.next()) {
+            case "0", "нет" -> System.exit(0);
+            case "1", "да" -> turnGame();
+        }
     }
 }
