@@ -79,7 +79,7 @@ public class Main {
     private static void playGame() {
 
         int countTurns = 0;
-        while (countTurns <= SIZE * SIZE) {
+        while (true) {
             humanTurn();
             printMap();
             countTurns++;
@@ -109,20 +109,16 @@ public class Main {
 
         System.out.println("\nХод человека! Введите номер строки и столбца!");
         do {
-            System.out.print("Строка = ");
-            if (scanner.hasNextInt()) {
-                rowNumber = scanner.nextInt();
-            } else {
-                System.out.println("Вы ввели не числовое значение");
-                scanner.next();
-            }
-            System.out.print("Столбец = ");
-            if (scanner.hasNextInt()) {
-                colNumber = scanner.nextInt();
-            } else {
-                System.out.println("Вы ввели не числовое значение");
-                scanner.next();
-            }
+            do {
+                System.out.print("Строка = ");
+            } while (!scanner.hasNextInt());
+            rowNumber = scanner.nextInt();
+
+            do {
+                System.out.print("Столбец = ");
+            } while (scanner.hasNextInt());
+            colNumber = scanner.nextInt();
+
         } while (!isCellValid(rowNumber, colNumber));
 
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
