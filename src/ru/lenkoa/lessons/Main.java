@@ -78,10 +78,10 @@ public class Main {
 
         int countTurns = 0;
         while (true) {
+            countTurns++;
             humanTurn();
             printMap();
-            countTurns++;
-            checkEnd(countTurns, DOT_HUMAN);
+            checkEnd(checkWin(), DOT_HUMAN);
 
             aiTurn();
             printMap();
@@ -90,16 +90,7 @@ public class Main {
         }
     }
 
-    private static void checkEnd(int countTurns, char symbol) {
-        if (countTurns >= DOTS_TO_WIN * 2 && checkWin(symbol)) {
-        System.out.println("Победил человек");
-        break;
-    }
-        if (countTurns == SIZE * SIZE) {
-            System.out.println("Ничья");
-            break;
-        }
-    }
+
 
     private static void humanTurn() {
         int rowNumber;
@@ -111,7 +102,7 @@ public class Main {
             if (scanner.hasNextInt()) {
                 rowNumber = scanner.nextInt();
             } else {
-                System.out.println("Вы ввели не числовое значение. Введите номер строки и столбца ещё раз.");
+                System.out.println("Вы ввели не числовое значение.");
                 scanner.next();
                 repeatTurn();
             }
@@ -119,13 +110,15 @@ public class Main {
             if (scanner.hasNextInt()) {
                 colNumber = scanner.nextInt();
             } else {
-                System.out.println("Вы ввели не числовое значение. Введите номер строки и столбца ещё раз.");
+                System.out.println("Вы ввели не числовое значение.");
                 scanner.next();
                 repeatTurn();
             }
 
         } while (!isCellValid(rowNumber, colNumber)) ;
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
+
+        checkEnd(countTurns, DOT_AI, rowNumber - 1, colNumber - 1);
     }
 
     private static void repeatTurn() {
@@ -152,25 +145,44 @@ public class Main {
         return isCellValid(rowNumber, colNumber, false);
     }
 
+    private static void checkEnd(int countTurns, char symbol, int symbolRowNumber, int symbolColNumber) {
+        if (countTurns >= DOTS_TO_WIN * 2 && checkWin(symbol, symbolRowNumber, symbolColNumber) {
+            System.out.println("Победил человек");
+            break;
+        }
+        if (countTurns == SIZE * SIZE) {
+            System.out.println("Ничья");
+            break;
+        }
+    }
+
     private static boolean checkWin(char symbol, int symbolRowNumber, int symbolColNumber) {
         int countWinCells = 0;
         for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в строке
             countWinCells = map[symbolRowNumber][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-            return countWinCells >= DOTS_TO_WIN;
         }
+        if (countWinCells >= DOTS_TO_WIN) {
+            return true;
+        } else countWinCells = 0;
+
         for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в столбце
             countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber] == symbol ? countWinCells + 1 : 0;
-            return countWinCells >= DOTS_TO_WIN;
         }
+        if (countWinCells >= DOTS_TO_WIN) {
+            return true;
+        } else countWinCells = 0;
+
         for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали сверху вниз
             countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-            return countWinCells >= DOTS_TO_WIN;
         }
+        if (countWinCells >= DOTS_TO_WIN) {
+            return true;
+        } else countWinCells = 0;
+
         for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали снизу вверх
             countWinCells = map[symbolRowNumber + DOTS_TO_WIN - i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-            return countWinCells >= DOTS_TO_WIN;
         }
-        return false;
+        return countWinCells >= DOTS_TO_WIN;
     }
 
     private static void aiTurn() {
@@ -184,7 +196,7 @@ public class Main {
 
         map[rowNumber - 1][colNumber - 1] = DOT_AI;
 
-        checkWin(DOT_AI, rowNumber - 1, colNumber - 1);
+
     }
 
     private static void tryAgain() {
