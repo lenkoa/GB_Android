@@ -110,9 +110,19 @@ public class Main {
         System.out.println("\nХод человека! Введите номер строки и столбца!");
         do {
             System.out.print("Строка = ");
-            rowNumber = scanner.nextInt();
+            if (scanner.hasNextInt()) {
+                rowNumber = scanner.nextInt();
+            } else {
+                System.out.println("Вы ввели не числовое значение");
+                scanner.next();
+            }
             System.out.print("Столбец = ");
-            colNumber = scanner.nextInt();
+            if (scanner.hasNextInt()) {
+                colNumber = scanner.nextInt();
+            } else {
+                System.out.println("Вы ввели не числовое значение");
+                scanner.next();
+            }
         } while (!isCellValid(rowNumber, colNumber));
 
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
