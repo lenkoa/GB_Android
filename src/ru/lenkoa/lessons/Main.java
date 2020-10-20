@@ -6,12 +6,12 @@ import java.util.Scanner;
 public class Main {
 
     static final int SIZE = 3;
-    private static int DOTS_TO_WIN; {
+    private static int WIN_CHARS; {
         if (SIZE <= 6) {
-            DOTS_TO_WIN = 3;
+            WIN_CHARS = 3;
         } else if (SIZE >= 7 && SIZE <= 10) {
-            DOTS_TO_WIN = 4;
-        } else DOTS_TO_WIN = 5;
+            WIN_CHARS = 4;
+        } else WIN_CHARS = 5;
     }
 
     static final char DOT_EMPTY = '•';
@@ -73,24 +73,22 @@ public class Main {
         }
     }
 
-
     private static void playGame() {
-
-        int countTurns = 0;
-        while (true) {
-            countTurns++;
+        int turnsCount = 0;
+        while (turnsCount < SIZE * SIZE) {
+            turnsCount++;
             humanTurn();
             printMap();
-            checkEnd(checkWin(), DOT_HUMAN);
 
+            turnsCount++;
             aiTurn();
             printMap();
-            countTurns++;
-            checkEnd(countTurns, DOT_AI);
+            }
+        if (turnsCount == SIZE * SIZE) {
+            System.out.println("Ничья");
+            tryAgain();
         }
     }
-
-
 
     private static void humanTurn() {
         int rowNumber;
@@ -99,31 +97,24 @@ public class Main {
         System.out.println("\nХод человека! Введите номер строки и столбца!");
         do {
             System.out.print("Строка = ");
-            if (scanner.hasNextInt()) {
-                rowNumber = scanner.nextInt();
-            } else {
-                System.out.println("Вы ввели не числовое значение.");
-                scanner.next();
-                repeatTurn();
-            }
+            rowNumber = scanner.nextInt();
             System.out.print("Столбец = ");
-            if (scanner.hasNextInt()) {
-                colNumber = scanner.nextInt();
-            } else {
-                System.out.println("Вы ввели не числовое значение.");
-                scanner.next();
-                repeatTurn();
-            }
-
+            colNumber = scanner.nextInt();
         } while (!isCellValid(rowNumber, colNumber)) ;
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
 
-        checkEnd(countTurns, DOT_AI, rowNumber - 1, colNumber - 1);
+        if (checkWin(DOT_HUMAN, rowNumber - 1, colNumber - 1)) {
+            printMap();
+            System.out.println("УРА! Вы победили!");
+            tryAgain();
+        }
     }
 
+    /** /
     private static void repeatTurn() {
-        humanTurn();
+        humanTurn(turnsCount);
     }
+     /**/
 
     private static boolean isCellValid(int rowNumber, int colNumber, boolean isAI) {
 
@@ -145,45 +136,44 @@ public class Main {
         return isCellValid(rowNumber, colNumber, false);
     }
 
-    private static void checkEnd(int countTurns, char symbol, int symbolRowNumber, int symbolColNumber) {
-        if (countTurns >= DOTS_TO_WIN * 2 && checkWin(symbol, symbolRowNumber, symbolColNumber) {
-            System.out.println("Победил человек");
-            break;
-        }
-        if (countTurns == SIZE * SIZE) {
-            System.out.println("Ничья");
-            break;
-        }
-    }
-
     private static boolean checkWin(char symbol, int symbolRowNumber, int symbolColNumber) {
-        int countWinCells = 0;
-        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в строке
-            countWinCells = map[symbolRowNumber][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-        }
-        if (countWinCells >= DOTS_TO_WIN) {
-            return true;
-        } else countWinCells = 0;
-
-        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения в столбце
-            countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber] == symbol ? countWinCells + 1 : 0;
-        }
-        if (countWinCells >= DOTS_TO_WIN) {
-            return true;
-        } else countWinCells = 0;
-
-        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали сверху вниз
-            countWinCells = map[symbolRowNumber - DOTS_TO_WIN + i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-        }
-        if (countWinCells >= DOTS_TO_WIN) {
-            return true;
-        } else countWinCells = 0;
-
-        for (int i = 1; i < DOTS_TO_WIN * 2; i++) { // проверяем значения по диагонали снизу вверх
-            countWinCells = map[symbolRowNumber + DOTS_TO_WIN - i][symbolColNumber - DOTS_TO_WIN + i] == symbol ? countWinCells + 1 : 0;
-        }
-        return countWinCells >= DOTS_TO_WIN;
+        return checkRow(symbol, symbolRowNumber, symbolColNumber) ||
+                checkColumn(symbol, symbolRowNumber, symbolColNumber) ||
+                checkDoagonal1(symbol, symbolRowNumber, symbolColNumber) ||
+                checkDiagonal2(symbol, symbolRowNumber, symbolColNumber);
     }
+
+    private static boolean checkRow(char symbol, int symbolRowNumber, int symbolColNumber) {
+        int winCharsCount = 0;
+        for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения в строке
+            winCharsCount = map[symbolRowNumber][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount++ : 0;
+        }
+        return winCharsCount >= WIN_CHARS;
+    }
+    private static boolean checkColumn(char symbol, int symbolRowNumber, int symbolColNumber) {
+        int winCharsCount = 0;
+        for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения в столбце
+            winCharsCount = map[symbolRowNumber - WIN_CHARS + i][symbolColNumber] == symbol ? winCharsCount++ : 0;
+        }
+        return winCharsCount >= WIN_CHARS;
+    }
+
+    private static boolean checkDoagonal1(char symbol, int symbolRowNumber, int symbolColNumber) {
+        int winCharsCount = 0;
+        for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения по диагонали сверху вниз
+            winCharsCount = map[symbolRowNumber - WIN_CHARS + i][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount + 1 : 0;
+        }
+        return winCharsCount >= WIN_CHARS;
+    }
+
+    private static boolean checkDiagonal2(char symbol, int symbolRowNumber, int symbolColNumber) {
+        int winCharsCount = 0;
+        for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения по диагонали снизу вверх
+            winCharsCount = map[symbolRowNumber + WIN_CHARS - i][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount + 1 : 0;
+        }
+        return winCharsCount >= WIN_CHARS;
+    }
+
 
     private static void aiTurn() {
         int rowNumber;
@@ -196,7 +186,11 @@ public class Main {
 
         map[rowNumber - 1][colNumber - 1] = DOT_AI;
 
-
+        if (checkWin(DOT_AI, rowNumber - 1, colNumber - 1)) {
+            printMap();
+            System.out.println("Победил AI!");
+            tryAgain();
+        }
     }
 
     private static void tryAgain() {
