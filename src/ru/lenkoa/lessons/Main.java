@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     static final int SIZE = 3;
-    private static int WIN_CHARS; {
+    static int WIN_CHARS;
+    static {
         if (SIZE <= 6) {
             WIN_CHARS = 3;
         } else if (SIZE >= 7 && SIZE <= 10) {
@@ -100,7 +101,7 @@ public class Main {
     private static void checkEnd(char symbol) {
         boolean isEnd = false;
 
-        if (checkWin(symbol, rowNumber, colNumber)) {
+        if (checkWin(symbol)) {
             String winMessage;
 
             if (symbol == DOT_HUMAN) {
@@ -111,15 +112,13 @@ public class Main {
 
             isEnd = true;
             System.out.println(winMessage);
-        }
-
-        if (!isEnd && turnsCount == SIZE * SIZE) {
+        } else if (turnsCount == SIZE * SIZE) {
             System.out.println("Ничья!");
             isEnd = true;
         }
 
         if (isEnd) {
-            System.exit(0);
+            tryAgain();
         }
     }
 
@@ -134,14 +133,6 @@ public class Main {
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
 
     }
-
-    /**
-     * /
-     * private static void repeatTurn() {
-     * humanTurn(turnsCount);
-     * }
-     * /
-     **/
 
     private static boolean isCellValid(int rowNumber, int colNumber, boolean isAI) {
 
@@ -163,41 +154,55 @@ public class Main {
         return isCellValid(rowNumber, colNumber, false);
     }
 
-    private static boolean checkWin(char symbol, int symbolRowNumber, int symbolColNumber) {
-        return checkRow(symbol, symbolRowNumber, symbolColNumber) ||
-                checkColumn(symbol, symbolRowNumber, symbolColNumber) ||
-                checkDoagonal1(symbol, symbolRowNumber, symbolColNumber) ||
-                checkDiagonal2(symbol, symbolRowNumber, symbolColNumber);
+    private static boolean checkWin(char symbol) {
+
+
+        return checkRow(symbol) ||
+                checkColumn(symbol) ||
+                checkDiagonal1(symbol) ||
+                checkDiagonal2(symbol);
     }
 
-    private static boolean checkRow(char symbol, int symbolRowNumber, int symbolColNumber) {
-        int winCharsCount = 0;
-        for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения в строке
-            winCharsCount = map[symbolRowNumber][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount+1 : 0;
+    private static char getSymbol (int row, int col){
+        if(0 <= row && row < SIZE && 0 <= col && col < SIZE){
+            return map[row][col];
+        } else {
+            return DOT_EMPTY;
         }
-        return winCharsCount >= WIN_CHARS;
     }
 
-    private static boolean checkColumn(char symbol, int symbolRowNumber, int symbolColNumber) {
+    private static boolean checkRow(char symbol) {
+        int winCharsCount = 0;
+        for (int i = 0; i < WIN_CHARS * 2 - 1; i++) { // проверяем значения в строке
+            winCharsCount = getSymbol(rowNumber-1,colNumber - WIN_CHARS + i) == symbol ? winCharsCount+1 : 0;
+            if(winCharsCount == WIN_CHARS) break;
+        }
+        return winCharsCount == WIN_CHARS;
+    }
+
+    private static boolean checkColumn(char symbol) {
         int winCharsCount = 0;
         for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения в столбце
-            winCharsCount = map[symbolRowNumber - WIN_CHARS + i][symbolColNumber] == symbol ? winCharsCount+1 : 0;
+            winCharsCount = getSymbol(rowNumber - WIN_CHARS + i, colNumber-1) == symbol ? winCharsCount+1 : 0;
+            if(winCharsCount == WIN_CHARS) break;
         }
         return winCharsCount >= WIN_CHARS;
     }
 
-    private static boolean checkDoagonal1(char symbol, int symbolRowNumber, int symbolColNumber) {
+    private static boolean checkDiagonal1(char symbol) {
         int winCharsCount = 0;
         for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения по диагонали сверху вниз
-            winCharsCount = map[symbolRowNumber - WIN_CHARS + i][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount+1 : 0;
+            winCharsCount = getSymbol(rowNumber - WIN_CHARS + i, colNumber - WIN_CHARS + i) == symbol ? winCharsCount+1 : 0;
+            if(winCharsCount == WIN_CHARS) break;
         }
         return winCharsCount >= WIN_CHARS;
     }
 
-    private static boolean checkDiagonal2(char symbol, int symbolRowNumber, int symbolColNumber) {
+    private static boolean checkDiagonal2(char symbol) {
         int winCharsCount = 0;
         for (int i = 1; i < WIN_CHARS * 2; i++) { // проверяем значения по диагонали снизу вверх
-            winCharsCount = map[symbolRowNumber + WIN_CHARS - i][symbolColNumber - WIN_CHARS + i] == symbol ? winCharsCount+1 : 0;
+            winCharsCount = getSymbol(rowNumber + WIN_CHARS - i, colNumber - WIN_CHARS + i) == symbol ? winCharsCount+1 : 0;
+            if(winCharsCount == WIN_CHARS) break;
         }
         return winCharsCount >= WIN_CHARS;
     }
