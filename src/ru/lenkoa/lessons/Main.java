@@ -32,8 +32,6 @@ public class Main {
 
     }
 
-
-
     private static void turnGame() {
         initMap();
         printMap();
@@ -109,21 +107,29 @@ public class Main {
 
         System.out.println("\nХод человека! Введите номер строки и столбца!");
         do {
-            do {
-                System.out.print("Строка = ");
-            } while (!scanner.hasNextInt());
-            rowNumber = scanner.nextInt();
+            System.out.print("Строка = ");
+            if (scanner.hasNextInt()) {
+                rowNumber = scanner.nextInt();
+            } else {
+                System.out.println("Вы ввели не числовое значение. Введите номер строки и столбца ещё раз.");
+                scanner.next();
+                repeatTurn();
+            }
+            System.out.print("Столбец = ");
+            if (scanner.hasNextInt()) {
+                colNumber = scanner.nextInt();
+            } else {
+                System.out.println("Вы ввели не числовое значение. Введите номер строки и столбца ещё раз.");
+                scanner.next();
+                repeatTurn();
+            }
 
-            do {
-                System.out.print("Столбец = ");
-            } while (scanner.hasNextInt());
-            colNumber = scanner.nextInt();
-
-        } while (!isCellValid(rowNumber, colNumber));
-
+        } while (!isCellValid(rowNumber, colNumber)) ;
         map[rowNumber - 1][colNumber - 1] = DOT_HUMAN;
+    }
 
-        int symbolRowNumber = rowNumber - 1;
+    private static void repeatTurn() {
+        humanTurn();
     }
 
     private static boolean isCellValid(int rowNumber, int colNumber, boolean isAI) {
@@ -190,3 +196,5 @@ public class Main {
         }
     }
 }
+
+
