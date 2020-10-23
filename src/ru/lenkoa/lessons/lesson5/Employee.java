@@ -43,6 +43,11 @@ public class Employee {
 
     protected int getAge(){ return age; }
 
+    public String toString() {
+        return "Сотрудник " + "ФИО='" + name + '\'' + ", должность='" + position + '\'' +
+                ", e-mail=" + email + '\'' + ", зарплата=" + salary + '\'' + ", возраст=" + age;
+    }
+
     protected void printEmployee(){
         System.out.println(this);
     }
