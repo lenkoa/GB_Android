@@ -32,9 +32,9 @@ public class Main {
             System.out.println("Кот " + cat.getName() + " пошёл по тарелкам");
             for (int j = 0; j < plates.length && !cat.getSatiety(); j++)
                 if (plates[j].getFood() == 0) {
-                    System.out.println("Подход к тарелке номер " + (j + 1) + ", в тарелке нет еды, она показывает днище!");
+                    System.out.println("Подход к тарелке" + (j + 1) + ", в тарелке нет еды, она показывает днище!");
                 } else {
-                    System.out.println("Подход к тарелке номер " + (j + 1) + ", в тарелке еды: " + plates[j].getFood());
+                    System.out.println("Подход к тарелке" + (j + 1) + ", в тарелке еды: " + plates[j].getFood());
                     cat.eat(plates[j]);
                 }
             if (!cat.getSatiety()) {
