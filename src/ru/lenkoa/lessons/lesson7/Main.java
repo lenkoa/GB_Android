@@ -1,5 +1,6 @@
 package ru.lenkoa.lessons.lesson7;
 // решение на одну итерацию, без повторений
+
 import java.util.Random;
 
 public class Main {
@@ -21,29 +22,31 @@ public class Main {
         plates[3] = new Plate(plateCapacity, 0);
 
 
-        for (int i = 0; i < plates.length; i++) { // заполняем тарелки случайным количеством еды
-            plates[i].addFood(random.nextInt(plateCapacity + 1));
+        for (Plate value : plates) { // заполняем тарелки случайным количеством еды
+            value.addFood(random.nextInt(plateCapacity + 1));
         }
 
-        for (Plate plate: plates // выводим информацию о тарелках в консоль
-             )
+        for (Plate plate : plates) // выводим информацию о тарелках в консоль
             plate.printInfo();
 
-        for (Cat cat: cats // кормим котов
-             ) {
-            for (Plate plate: plates
-                 )
-                cat.eat(plate);
+        for (Cat cat : cats) { // коты едят
+            System.out.println("Кот " + cat.getName() + " пошёл по тарелкам");
+            for (int j = 0; j < plates.length && !cat.getSatiety(); j++)
+                if (plates[j].getFood() == 0) {
+                    System.out.println("Подход к тарелке номер " + (j + 1) + ", в тарелке нет еды, она показывает днище!");
+                } else {
+                    System.out.println("Подход к тарелке номер " + (j + 1) + ", в тарелке еды: " + plates[j].getFood());
+                    cat.eat(plates[j]);
+                }
+            if (!cat.getSatiety()) {
+                System.out.println("Кот " + cat.getName() + " голодает!");
+            }
         }
 
-        for (Plate plate: plates // выводим информацию о тарелках в консоль после еды
-        ) {
+        for (Plate plate : plates) // выводим информацию о тарелках в консоль после еды
             plate.printInfo();
-        }
 
 
     }
-
-
 }
 

@@ -8,8 +8,9 @@ public class Plate {
         return food;
     }
 
-    public Plate(int capacity) {
+    public Plate(int capacity, int food) {
         this.capacity = capacity;
+        this.food = food;
     }
 
     public void addFood(int food) {
@@ -20,7 +21,6 @@ public class Plate {
     public String toString() {
         return "Plate{" + "capacity=" + capacity + ", food=" + food + '}';
     }
-
 
     public void printInfo() {
         System.out.println(this);

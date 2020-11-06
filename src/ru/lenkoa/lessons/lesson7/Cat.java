@@ -3,32 +3,43 @@ package ru.lenkoa.lessons.lesson7;
 public class Cat {
     private String name;
     private int appetite;
-    private boolean fullness;
+    private boolean satiety;
+
+    public Cat(String name, int appetite, boolean satiety) {
+        this.appetite = appetite;
+        this.name = name;
+        this.satiety = satiety;
+    }
 
     public Cat(String name, int appetite) {
         this.appetite = appetite;
         this.name = name;
-        this.fullness = false;
+        this.satiety = false;
     }
 
     public void eat(Plate plate) {
-        System.out.println("Котик " + name + "питается");
+        System.out.println("Кот " + name + " питается");
+        doEat(plate);
+        satiety = appetite == 0;
+    }
 
+    private void doEat(Plate plate) {
         if (plate.getFood() >= appetite) {
-            doEat(plate);
+            plate.decreaseFood(appetite);
             System.out.println("Кот " + name + " доволен");
-            fullness = true;
-        }
-        else if(plate.getFood() < appetite && plate.getFood() > 0){
-            doEatPartially(plate);
-            System.out.println("Кот " + name + " не наелся");
+            appetite = 0;
+        } else {
             appetite -= plate.getFood();
-        }
-        else {
-            System.out.println("Коту " + name + "нужна еда!");
+            plate.decreaseFood(plate.getFood());
+            System.out.println("Кот " + name + " не наелся, он хочет ещё " + appetite + " еды");
         }
     }
 
-    private void doEat(Plate plate) { plate.decreaseFood(appetite); }
-    private void doEatPartially(Plate plate) { plate.decreaseFood(plate.getFood()); }
+    public boolean getSatiety() {
+        return satiety;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
