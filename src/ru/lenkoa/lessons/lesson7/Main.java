@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Main {
     public static Random random = new Random();
-    public static int plateCapacity = 5;
 
     public static void main(String[] args) {
 
@@ -16,14 +15,14 @@ public class Main {
         cats[3] = new Cat("Варвара Богдансдоттир", 3);
 
         Plate[] plates = new Plate[4];
-        plates[0] = new Plate(plateCapacity, 0);
-        plates[1] = new Plate(plateCapacity, 0);
-        plates[2] = new Plate(plateCapacity, 0);
-        plates[3] = new Plate(plateCapacity, 0);
+        plates[0] = new Plate(5, 0);
+        plates[1] = new Plate(4, 0);
+        plates[2] = new Plate(6, 0);
+        plates[3] = new Plate(3, 0);
 
 
         for (Plate value : plates) { // заполняем тарелки случайным количеством еды
-            value.addFood(random.nextInt(plateCapacity + 1));
+            value.addFood(random.nextInt(value.getCapacity() + 1));
         }
 
         for (Plate plate : plates) // выводим информацию о тарелках в консоль

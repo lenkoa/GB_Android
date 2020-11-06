@@ -4,6 +4,8 @@ public class Plate {
     private int capacity;
     private int food;
 
+
+
     public int getFood() {
         return food;
     }
@@ -28,5 +30,9 @@ public class Plate {
 
     public void decreaseFood(int appetite) {
         this.food -= appetite;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }
