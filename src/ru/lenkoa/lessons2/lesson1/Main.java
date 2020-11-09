@@ -12,6 +12,12 @@ public class Main {
         ArrayList<Obstacles> obstacles = new ArrayList<Obstacles>();
         obstacles.add(new Wall(3));
 
+        for (Participating participant : participants){
+            for (int i = 0; i < obstacles.size() && Participating.success; i++) {
+                obstacles.get(i).pass(participant);
+            }
+        }
+
 
 
     }

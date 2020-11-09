@@ -11,4 +11,11 @@ public class Wall implements Obstacles {
     public int getLimit() {
         return height;
     }
+
+    @Override
+    public void pass(Participating participating) {
+        participating.jump(height);
+    }
+
+
 }
