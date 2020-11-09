@@ -13,28 +13,25 @@ public class Cat implements Participating {
         this.success = true;
     }
 
-    @Override
-    public void run(int limit) {
-        if(limit <= runLimit) {
-            System.out.println("Кот " + name + " успешно пробежал " + limit);
+    private void activity(int obstacleSize, int limit, String activity){
+        if(obstacleSize <= limit) {
+            System.out.println("Кот " + name + " смог " + activity + " " + obstacleSize);
             success = true;
         } else {
-            System.out.println("Кот " + name + " не смог пробежать " + limit + ", он сказал, что у него лапки на "
-                    + runLimit + " и ушел спать");
+            System.out.println("Кот " + name + " не смог " + activity + " " + obstacleSize
+                    + ", он сказал что у него лапки на " + limit + " и ушёл спать");
             success = false;
         }
     }
 
     @Override
-    public void jump(int limit) {
-        if(limit <= jumpLimit) {
-            System.out.println("Кот " + name + " успешно подпрыгнул на высоту " + limit);
-            success = true;
-        } else {
-            System.out.println("Кот " + name + " не смог подпрыгнуть на высоту " + limit
-                    + ", он сказал, что у него лапки на " + jumpLimit + " и ушел спать");
-            success = false;
-        }
+    public void run(int obstacleSize) {
+        activity(obstacleSize, runLimit, "пробежать");
+    }
+
+    @Override
+    public void jump(int obstacleSize) {
+        activity(obstacleSize, jumpLimit, "подпрыгнуть на");
     }
 
     @Override

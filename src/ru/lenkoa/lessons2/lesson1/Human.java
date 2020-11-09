@@ -13,29 +13,25 @@ public class Human implements Participating{
         this.success = true;
     }
 
-    @Override
-    public void run(int limit) {
-        if(limit <= runLimit) {
-            System.out.println("Человек " + name + " успешно пробежал " + limit);
+    private void activity(int obstacleSize, int limit, String activity){
+        if(obstacleSize <= limit) {
+            System.out.println("Человек " + name + " смог " + activity + " " + obstacleSize);
             success = true;
         } else {
-            System.out.println("Человек " + name + " не смог пробежать " + limit + ", он сдулся на "
-                    + runLimit + " и уходит с дистанции");
+            System.out.println("Человек " + name + " не смог " + activity + " " + obstacleSize
+                    + ", он сдулся на " + limit + " и ушёл с дистанции");
             success = false;
         }
     }
 
     @Override
-    public void jump(int limit) {
-        if(limit <= jumpLimit) {
-            System.out.println("Человек " + name + " успешно подпрыгнул на высоту " + limit);
-            success = true;
-        } else {
-            System.out.println("Человек " + name + " не смог подпрыгнуть на высоту " + limit
-                    + ", он сдулся на " + jumpLimit + " и уходит с дистанции");
-            success = false;
-        }
+    public void run(int obstacleSize) {
+        activity(obstacleSize, runLimit, "пробежать");
+    }
 
+    @Override
+    public void jump(int obstacleSize) {
+        activity(obstacleSize, jumpLimit, "подпрыгнуть на");
     }
 
     public boolean getSuccess(){

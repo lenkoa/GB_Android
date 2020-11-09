@@ -13,29 +13,25 @@ public class Robot implements Participating {
         this.success = true;
     }
 
-
-    @Override
-    public void run(int limit) {
-        if(limit <= runLimit) {
-            System.out.println("Робот " + name + " успешно пробежал " + limit);
+    private void activity(int obstacleSize, int limit, String activity){
+        if(obstacleSize <= limit) {
+            System.out.println("Робот " + name + " смог " + activity + " " + obstacleSize);
             success = true;
         } else {
-            System.out.println("Робот " + name + " не смог пробежать " + limit + ", он сломался на "
-                    + runLimit + " и ушёл в ремонт");
+            System.out.println("Робот " + name + " не смог " + activity + " " + obstacleSize
+                    + ", он сломался на " + limit + " и уехал в ремонт");
             success = false;
         }
     }
 
     @Override
-    public void jump(int limit) {
-        if(limit <= jumpLimit) {
-            System.out.println("Робот " + name + " успешно подпрыгнул на высоту " + limit);
-            success = true;
-        } else {
-            System.out.println("Робот " + name + " не смог подпрыгнуть на высоту " + limit
-                    + ", он сломался на " + jumpLimit + " и ушел в ремонт");
-            success = false;
-        }
+    public void run(int obstacleSize) {
+        activity(obstacleSize, runLimit, "пробежать");
+    }
+
+    @Override
+    public void jump(int obstacleSize) {
+        activity(obstacleSize, jumpLimit, "подпрыгнуть на");
     }
 
     @Override
