@@ -1,7 +1,7 @@
 package ru.lenkoa.lessons2.lesson1;
 
 public interface Participating {
-    public void run(int limit);
-    public void jump(int limit);
-    public boolean success = true;
+    void run(int limit);
+    void jump(int limit);
+    boolean success = true;
 }
