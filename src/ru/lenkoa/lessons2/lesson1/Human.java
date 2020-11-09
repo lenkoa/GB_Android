@@ -1,16 +1,16 @@
 package ru.lenkoa.lessons2.lesson1;
 
 public class Human implements Participating{
-    public boolean success;
-
     private String name;
     private int runLimit;
     private int jumpLimit;
+    private boolean success;
 
     public Human(String name, int runLimit, int jumpLimit){
         this.name = name;
         this.runLimit = runLimit;
         this.jumpLimit = jumpLimit;
+        this.success = true;
     }
 
     @Override
@@ -19,7 +19,8 @@ public class Human implements Participating{
             System.out.println("Человек " + name + " успешно пробежал " + limit);
             success = true;
         } else {
-            System.out.println("Человек " + name + " не смог пробежать " + limit + " он сдулся на " + runLimit);
+            System.out.println("Человек " + name + " не смог пробежать " + limit + ", он сдулся на "
+                    + runLimit + " и уходит с дистанции");
             success = false;
         }
     }
@@ -30,9 +31,14 @@ public class Human implements Participating{
             System.out.println("Человек " + name + " успешно подпрыгнул на высоту " + limit);
             success = true;
         } else {
-            System.out.println("Человек " + name + " не смог подпрыгнуть на высоту " + limit + " он сдулся на " + jumpLimit);
+            System.out.println("Человек " + name + " не смог подпрыгнуть на высоту " + limit
+                    + ", он сдулся на " + jumpLimit + " и уходит с дистанции");
             success = false;
         }
 
+    }
+
+    public boolean getSuccess(){
+        return success;
     }
 }
