@@ -13,27 +13,30 @@ public class Main {
         }
         array[1][2] = "ква";
 
+        try {
+            sumArray(array);
+        } catch (MyArrayDataException | MyArraySizeException e){
+            e.printStackTrace();
+        }
 
+    }
 
+    private static void sumArray(String[][] array) throws MyArraySizeException,
+            MyArrayDataException {
         if(array.length != SIZE || array[0].length != SIZE){
             throw new MyArraySizeException(SIZE);
         }
 
-        try {
-            int sum = 0;
-            for (int i = 0; i < array.length; i++) {
-                for (int j = 0; j < array[i].length; j++) {
-                    try {
-                        sum += Integer.parseInt(array[i][j]);
-                    } catch (NumberFormatException e) {
-                        throw new MyArrayDataException(i, j);
-                    }
+        int sum = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                try {
+                    sum += Integer.parseInt(array[i][j]);
+                } catch (NumberFormatException e) {
+                    throw new MyArrayDataException(i, j);
                 }
             }
-            System.out.println("Сумма всех элементов массива равна " + sum);
-        } catch (MyArrayDataException e){
-            e.printStackTrace();
         }
-
+        System.out.println("Сумма всех элементов массива равна " + sum);
     }
 }
