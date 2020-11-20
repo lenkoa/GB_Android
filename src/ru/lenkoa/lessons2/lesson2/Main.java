@@ -39,4 +39,5 @@ public class Main {
         }
         System.out.println("Сумма всех элементов массива равна " + sum);
     }
+
 }
