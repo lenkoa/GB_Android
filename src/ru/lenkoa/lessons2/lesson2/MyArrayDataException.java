@@ -5,4 +5,9 @@ public class MyArrayDataException extends Exception {
         super("В ячейке [" + i + "],[" + j + "] лежит не числовое значение");
     }
 
+    public MyArrayDataException(String message){
+        super(message);
+    }
+
+
 }
