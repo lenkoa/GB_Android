@@ -24,6 +24,5 @@ public class Main {
         for (Map.Entry<String, Integer> entry : countedWords.entrySet()){
             System.out.println(MessageFormat.format("Слово: {0}, Встречается раз: {1}", entry.getKey(), entry.getValue()));
         }
-
     }
 }
